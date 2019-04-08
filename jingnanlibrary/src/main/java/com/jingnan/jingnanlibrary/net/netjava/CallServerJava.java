@@ -38,6 +38,10 @@ public class CallServerJava {
         mRequestQueue = NoHttp.newRequestQueue(MAX_POOL_SIZE/2);
         mDownloadQueue = NoHttp.newDownloadQueue(MAX_POOL_SIZE/2);
     }
+        //获得创建的队列
+    public RequestQueue getmRequestQueue() {
+        return mRequestQueue;
+    }
 
     /**
      * 添加一个请求到请求队列。
@@ -51,25 +55,25 @@ public class CallServerJava {
         listRequestQueues.add(mRequestQueue);
     }
 
-    public <T> void request(Activity activity, int what, Request<T> request, HttpListener<T> callback,
+    public <T> void add(Activity activity, int what, Request<T> request, HttpListener<T> callback,
                             boolean canCancel, boolean isLoading, Class<?> modelclass) {
         mRequestQueue.add(what, request, new HttpResponseListenerJava<>(activity, request, callback, canCancel, isLoading, modelclass));
         listRequestQueues.add(mRequestQueue);
     }
 
-    public <T> void request(Context context, int what, Request<T> request, HttpListener<T> callback,
+    public <T> void add(Context context, int what, Request<T> request, HttpListener<T> callback,
                             boolean canCancel, boolean isLoading, Class<?> modelclass) {
         mRequestQueue.add(what, request, new HttpResponseListenerJava<>(context, request, callback, canCancel, isLoading, modelclass));
         listRequestQueues.add(mRequestQueue);
     }
 
-    public <T> void request(int what, Request<T> request, HttpListener<T> callback,
+    public <T> void add(int what, Request<T> request, HttpListener<T> callback,
                             Class<?> modelclass) {
         mRequestQueue.add(what, request, new HttpResponseListenerJava<>(request, callback, modelclass));
         listRequestQueues.add(mRequestQueue);
     }
 
-    public <T> void request(int what, Request<T> request, HttpListener<T> callback, boolean canCancel, boolean isLoading,
+    public <T> void add(int what, Request<T> request, HttpListener<T> callback, boolean canCancel, boolean isLoading,
                             Class<?> modelclass) {
         mRequestQueue.add(what, request, new HttpResponseListenerJava<>(request, callback, modelclass));
         listRequestQueues.add(mRequestQueue);

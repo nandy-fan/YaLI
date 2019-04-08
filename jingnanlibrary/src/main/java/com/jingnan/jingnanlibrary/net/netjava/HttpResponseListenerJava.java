@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
+import com.google.gson.Gson;
 import com.jingnan.jingnanlibrary.R;
 import com.jingnan.jingnanlibrary.bean.BaseModelJava;
+import com.jingnan.jingnanlibrary.bean.TestBeans;
 import com.jingnan.jingnanlibrary.model.OnAgainLoginListener;
 import com.yanzhenjie.nohttp.error.*;
 import com.yanzhenjie.nohttp.rest.OnResponseListener;
@@ -60,43 +62,50 @@ public class HttpResponseListenerJava<T> implements OnResponseListener<T> {
 
             //L.json("返回值：" + UnicodeUtils.decodeUnicode(request));
             //L.e("返回值：" + UnicodeUtils.decodeUnicode(request));
+            Gson gson = new Gson();
             try {
 
-                BaseModelJava bmodel = JSON.parseObject(request, BaseModelJava.class);
+               // BaseModelJava bmodel = JSON.parseObject(request, BaseModelJava.class);
                // setTimeSync(bmodel.getTimestamp());//存储当前时间和服务器时间对比时间差
-                if ("0".equals(bmodel.getErrorCode())) {
-                    Object obj = JSON.parseObject(request, modelClass);
-                    callback.onSucceed(what, response, obj);
-                } else if ("20018".equals(bmodel.getErrorCode())) {
-                    Object obj = JSON.parseObject(request, modelClass);
-                    callback.onSucceed(what, response, obj);
-                } else if ("20004".equals(bmodel.getErrorCode())) {
-                    if (HttpResponseListenerJava.onAgainLoginListener != null) {
-                        HttpResponseListenerJava.onAgainLoginListener.onAgainLogin();
-                    }
-                    bmodel.setErrorMessage("");
-                    callback.onFailed(what, response, bmodel);
-                } else if ("20010".equals(bmodel.getErrorCode())) {
-                    if (HttpResponseListenerJava.onAgainLoginListener != null) {
-                        HttpResponseListenerJava.onAgainLoginListener.onAgainLogin();
-                    }
-                    bmodel.setErrorMessage("");
-                    callback.onFailed(what, response, bmodel);
-                } else if ("10010".equals(bmodel.getErrorCode())) {
-                    if (HttpResponseListenerJava.onAgainLoginListener != null) {
-                        HttpResponseListenerJava.onAgainLoginListener.onAgainLogin();
-                    }
-                    bmodel.setErrorMessage("");
-                    callback.onFailed(what, response, bmodel);
-                } else if ("5000".equals(bmodel.getErrorCode())) {
-                    if (HttpResponseListenerJava.onAgainLoginListener != null) {
-                        HttpResponseListenerJava.onAgainLoginListener.onOutLogin(bmodel);
-                    }
-                    bmodel.setErrorMessage("");
-                    callback.onFailed(what, response, bmodel);
-                } else {
-                    callback.onFailed(what, response, bmodel);
-                }
+
+                //测试
+
+                TestBeans bmodel = gson.fromJson(request, TestBeans.class);
+                callback.onSucceed(what, response, bmodel);
+
+//                if ("0".equals(bmodel.getErrorCode())) {
+//                    Object obj = JSON.parseObject(request, modelClass);
+//                    callback.onSucceed(what, response, obj);
+//                } else if ("20018".equals(bmodel.getErrorCode())) {
+//                    Object obj = JSON.parseObject(request, modelClass);
+//                    callback.onSucceed(what, response, obj);
+//                } else if ("20004".equals(bmodel.getErrorCode())) {
+//                    if (HttpResponseListenerJava.onAgainLoginListener != null) {
+//                        HttpResponseListenerJava.onAgainLoginListener.onAgainLogin();
+//                    }
+//                    bmodel.setErrorMessage("");
+//                    callback.onFailed(what, response, bmodel);
+//                } else if ("20010".equals(bmodel.getErrorCode())) {
+//                    if (HttpResponseListenerJava.onAgainLoginListener != null) {
+//                        HttpResponseListenerJava.onAgainLoginListener.onAgainLogin();
+//                    }
+//                    bmodel.setErrorMessage("");
+//                    callback.onFailed(what, response, bmodel);
+//                } else if ("10010".equals(bmodel.getErrorCode())) {
+//                    if (HttpResponseListenerJava.onAgainLoginListener != null) {
+//                        HttpResponseListenerJava.onAgainLoginListener.onAgainLogin();
+//                    }
+//                    bmodel.setErrorMessage("");
+//                    callback.onFailed(what, response, bmodel);
+//                } else if ("5000".equals(bmodel.getErrorCode())) {
+//                    if (HttpResponseListenerJava.onAgainLoginListener != null) {
+//                        HttpResponseListenerJava.onAgainLoginListener.onOutLogin(bmodel);
+//                    }
+//                    bmodel.setErrorMessage("");
+//                    callback.onFailed(what, response, bmodel);
+//                } else {
+//                    callback.onFailed(what, response, bmodel);
+//                }
 
             } catch (Exception e) {
                // L.e("异常：" + e.getMessage());
